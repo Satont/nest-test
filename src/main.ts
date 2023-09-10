@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'development';
 
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
@@ -7,11 +7,13 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+  });
   app.enableShutdownHooks();
+  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: false }));
   app.getHttpAdapter().getInstance().disable('x-powered-by');
   app.getHttpAdapter().getInstance().set('etag', false);
-  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: false }));
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Benefit manager')
     .setDescription('Benefit manager api')

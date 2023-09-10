@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(id?: string): string {
-    return `Hello ${id ?? 'world'}!`;
+  async getHello(id?: string) {
+    return `Hello ${id ?? 'world'} ${Date.now()}`;
   }
 }
