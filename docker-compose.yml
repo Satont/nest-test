@@ -7,5 +7,22 @@ services:
       context: .
       dockerfile: Dockerfile
       target: api
+    networks:
+      - d
     ports:
       - "13337:3000"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: n
+    ports:
+      - "80:80"
+    networks:
+      - d
+    environment:
+      - NGINX_PORT=80
+
+networks:
+  d:
